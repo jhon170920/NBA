@@ -7,11 +7,13 @@
     
     <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
         <div class="flex items-center gap-6">
+            {% comment %} Logo del equipo, se trae del modelo {% endcomment %}
             {% if equipo.logo %}
                 <img src="{{ equipo.logo.url }}" alt="Logo" class="h-20 w-20 object-contain">
             {% endif %}
             <div>
                 <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+                    {% comment %} Nombre del equipo, se trae del modelo, al igual que el color_principal {% endcomment %}
                     Full <span style="color: {{ equipo.color_principal }};">Roster</span>
                 </h1>
                 <p class="text-gray-500 uppercase tracking-widest text-xs font-bold mt-1">Plantilla Oficial 2025-2026</p>
@@ -34,19 +36,23 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-white/5">
+                {% comment %} Bucle para agregar los jugadores del modelos {% endcomment %}
                 {% for jugador in jugadores %}
                 <tr class="hover:bg-white/[0.02] transition-colors group">
                     <td class="p-6">
                         <span class="text-3xl font-black italic group-hover:scale-110 inline-block transition-transform" 
                               style="color: {{ equipo.color_principal }};">
-                            #{{ jugador.numero }}
+                              {% comment %} Número del jugador, se trae del modelo {% endcomment %}
+                            #{{ jugador.numero }}  
                         </span>
                     </td>
                     <td class="p-6">
                         <div class="flex items-center gap-4">
+                            {% comment %} Imagen del jugador, se trae del modelo{% endcomment %}
                             {% if jugador.foto %}
                                 <img src="{{ jugador.foto.url }}" alt="{{ jugador.nombre }}" class="w-12 h-12 rounded-full object-cover border border-white/10">
                             {% else %}
+                            {% comment %} Si no hay imagen del jugador se procede a mostrar el siguiente estilo {% endcomment %}
                                 <div class="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center text-[10px] text-gray-500">N/A</div>
                             {% endif %}
                             <div>
@@ -61,6 +67,7 @@
                         </span>
                     </td>
                     <td class="p-6 hidden md:table-cell text-center">
+                        {% comment %} Para los jugadores estrellas {% endcomment %}
                         {% if jugador.es_estrella %}
                             <span class="text-[#BA9653] text-xs">★ Estrella</span>
                         {% else %}
@@ -68,6 +75,7 @@
                         {% endif %}
                     </td>
                 </tr>
+                {% comment %} Si en el modelo no se ha registrado ningun jugador se procede a mostrar el siguiente estilo{% endcomment %}
                 {% empty %}
                 <tr>
                     <td colspan="4" class="p-20 text-center text-gray-500 italic">
@@ -80,6 +88,7 @@
     </div>
 
     <div class="mt-12 text-center">
+        {% comment %} Link para volver al inicio del equipo segun el enlace por el cual se uso{% endcomment %}
         <a href="{% url 'home_equipo' equipo.slug %}" class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
             ← Volver al inicio de {{ equipo.nombre }}
         </a>

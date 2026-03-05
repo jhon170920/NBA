@@ -2,6 +2,7 @@
 
 {% block title %}NBA Hub | Selección de Franquicia{% endblock %}
 
+{% comment %} El contenido donde se mostraran los equipos{% endcomment %}
 {% block content %}
 <div class="min-h-[80vh] flex flex-col items-center justify-center py-12 px-6">
     
@@ -26,6 +27,7 @@
                     <img src="{{ eq.logo.url }}" alt="{{ eq.nombre }}" 
                          class="max-h-full max-w-full object-contain transform transition-transform duration-700 group-hover:scale-110">
                 {% else %}
+                {% comment %} Si no hay imagen del equipo se procede a mostrar el siguiente estilo, solo las Iniciales del nombre del equipo {% endcomment %}
                     <div class="text-6xl font-black text-white/5 uppercase">{{ eq.nombre|slice:":2" }}</div>
                 {% endif %}
             </div>
@@ -43,6 +45,7 @@
 
             <div class="absolute bottom-0 left-0 h-1.5 w-0 bg-[var(--team-color)] transition-all duration-500 group-hover:w-full"></div>
         </a>
+        {% comment %} Este estilo se mostrara si no se encuentra ningun equipo registrado{% endcomment %}
         {% empty %}
         <div class="col-span-full py-20 text-center border-2 border-dashed border-white/10 rounded-[3rem]">
             <p class="text-gray-500 mb-4 italic text-lg">No se han encontrado equipos registrados.</p>

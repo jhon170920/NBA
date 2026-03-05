@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}NBA Project{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    {% comment %} Aqui van los estilos propios del equipo, se modifican segun el color agregado en el admin{% endcomment %}
     <style>
         body { background-color: #050505; color: white; }
         .team-accent { color: {{ equipo.color_principal|default:"#007A33" }}; }
     </style>
 </head>
-<body class="antialiased">
+
+<body> 
     <nav class="p-6 flex justify-center gap-8 bg-black/50 backdrop-blur-md fixed w-full z-50">
         <a href="{% url 'selector' %}" class="hover:text-gray-400">Liga</a>
         {% if equipo %}
@@ -19,6 +21,7 @@
     </nav>
     
     <main class="pt-24">
+        {% comment %} block content es un espacio donde se mostrara algo,(en este caso el selector) evitando extender demasiado el codigo en un solo HTML{% endcomment %}
         {% block content %}{% endblock %}
     </main>
 </body>
