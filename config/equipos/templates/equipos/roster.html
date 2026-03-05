@@ -1,0 +1,88 @@
+{% extends 'equipos/base.html' %}
+
+{% block title %}Roster | {{ equipo.nombre }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-20">
+    
+    <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
+        <div class="flex items-center gap-6">
+            {% if equipo.logo %}
+                <img src="{{ equipo.logo.url }}" alt="Logo" class="h-20 w-20 object-contain">
+            {% endif %}
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+                    Full <span style="color: {{ equipo.color_principal }};">Roster</span>
+                </h1>
+                <p class="text-gray-500 uppercase tracking-widest text-xs font-bold mt-1">Plantilla Oficial 2025-2026</p>
+            </div>
+        </div>
+        
+        <div class="text-right">
+            <span class="text-5xl font-black opacity-10 block">{{ equipo.nombre }}</span>
+        </div>
+    </div>
+
+    <div class="bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden backdrop-blur-md">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/10 bg-white/5 text-gray-400 text-[10px] uppercase tracking-[0.2em]">
+                    <th class="p-6">Dorsal</th>
+                    <th class="p-6">Jugador</th>
+                    <th class="p-6 hidden md:table-cell">Posición</th>
+                    <th class="p-6 hidden md:table-cell text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+                {% for jugador in jugadores %}
+                <tr class="hover:bg-white/[0.02] transition-colors group">
+                    <td class="p-6">
+                        <span class="text-3xl font-black italic group-hover:scale-110 inline-block transition-transform" 
+                              style="color: {{ equipo.color_principal }};">
+                            #{{ jugador.numero }}
+                        </span>
+                    </td>
+                    <td class="p-6">
+                        <div class="flex items-center gap-4">
+                            {% if jugador.foto %}
+                                <img src="{{ jugador.foto.url }}" alt="{{ jugador.nombre }}" class="w-12 h-12 rounded-full object-cover border border-white/10">
+                            {% else %}
+                                <div class="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center text-[10px] text-gray-500">N/A</div>
+                            {% endif %}
+                            <div>
+                                <p class="font-bold uppercase text-lg">{{ jugador.nombre }}</p>
+                                <p class="text-gray-500 text-xs md:hidden">{{ jugador.posicion }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-6 hidden md:table-cell">
+                        <span class="px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                            {{ jugador.posicion }}
+                        </span>
+                    </td>
+                    <td class="p-6 hidden md:table-cell text-center">
+                        {% if jugador.es_estrella %}
+                            <span class="text-[#BA9653] text-xs">★ Estrella</span>
+                        {% else %}
+                            <span class="text-gray-600 text-xs">Rol</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="p-20 text-center text-gray-500 italic">
+                        No hay jugadores registrados para este equipo aún.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-12 text-center">
+        <a href="{% url 'home_equipo' equipo.slug %}" class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
+            ← Volver al inicio de {{ equipo.nombre }}
+        </a>
+    </div>
+</div>
+{% endblock %}

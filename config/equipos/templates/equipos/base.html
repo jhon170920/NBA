@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}NBA Project{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; color: white; }
+        .team-accent { color: {{ equipo.color_principal|default:"#007A33" }}; }
+    </style>
+</head>
+<body class="antialiased">
+    <nav class="p-6 flex justify-center gap-8 bg-black/50 backdrop-blur-md fixed w-full z-50">
+        <a href="{% url 'selector' %}" class="hover:text-gray-400">Liga</a>
+        {% if equipo %}
+            <a href="{% url 'home_equipo' equipo.slug %}" class="hover:opacity-80">Inicio {{ equipo.nombre }}</a>
+            <a href="{% url 'roster' equipo.slug %}" class="hover:opacity-80">Roster</a>
+        {% endif %}
+    </nav>
+    
+    <main class="pt-24">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

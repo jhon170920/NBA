@@ -1,0 +1,82 @@
+{% extends 'equipos/base.html' %}
+
+{% block title %}{{ equipo.nombre }} | Oficial{% endblock %}
+
+{% block content %}
+<header class="relative h-[90vh] flex flex-col justify-center items-center overflow-hidden">
+    
+    <div class="absolute inset-0 z-0 opacity-40 blur-[120px]" 
+         style="background: radial-gradient(circle at center, {{ equipo.color_principal }}, transparent 70%);"></div>
+
+    <div class="relative z-10 text-center px-4">
+        {% if equipo.logo %}
+            <img src="{{ equipo.logo.url }}" alt="{{ equipo.nombre }}" 
+                 class="h-48 md:h-64 mx-auto mb-10 drop-shadow-[0_0_50px_rgba(255,255,255,0.2)] animate-pulse-slow">
+        {% endif %}
+        
+        <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-none mb-4">
+            {{ equipo.nombre }}
+        </h1>
+        
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <span class="h-[2px] w-12 bg-white/20"></span>
+            <p class="text-[#BA9653] font-bold tracking-[0.5em] text-sm md:text-lg uppercase">
+                Tradition & Glory
+            </p>
+            <span class="h-[2px] w-12 bg-white/20"></span>
+        </div>
+
+        <a href="#estrellas" class="mt-8 inline-block p-4 border border-white/10 rounded-full hover:bg-white/5 transition-all animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+            </svg>
+        </a>
+    </div>
+</header>
+
+<section id="estrellas" class="py-32 max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div>
+            <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Key Players</h2>
+            <p class="text-gray-500 mt-2 italic">Las figuras que definen el presente de la franquicia.</p>
+        </div>
+        <a href="{% url 'roster' equipo.slug %}" 
+           class="px-8 py-4 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-full hover:bg-gray-200 transition-all">
+            Ver Roster Completo
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for estrella in estrellas %}
+        <div class="group relative bg-white/5 rounded-[2.5rem] overflow-hidden border border-white/10 p-2">
+            <div class="aspect-[4/5] overflow-hidden rounded-[2.2rem] bg-neutral-900 relative">
+                {% if estrella.foto %}
+                    <img src="{{ estrella.foto.url }}" alt="{{ estrella.nombre }}" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                {% else %}
+                    <div class="flex items-center justify-center h-full text-white/5 text-8xl font-black italic">#{{ estrella.numero }}</div>
+                {% endif %}
+                
+                <div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/40 to-transparent">
+                    <span class="text-4xl font-black italic opacity-50" style="color: {{ equipo.color_principal }};">#{{ estrella.numero }}</span>
+                    <h3 class="text-2xl font-bold uppercase">{{ estrella.nombre }}</h3>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">{{ estrella.posicion }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="col-span-full text-center text-gray-600 py-20 italic">No se han marcado jugadores estrella para este equipo aún.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.02); }
+    }
+    .animate-pulse-slow {
+        animation: pulse-slow 6s infinite ease-in-out;
+    }
+</style>
+{% endblock %}
